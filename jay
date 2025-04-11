@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MBTI 小遊戲</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .quiz-container {
+      background: #fff;
+      padding: 2rem 3rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      margin: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 12px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #333;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>MBTI 小測驗</h1>
+    <div class="question" id="question-text">你更喜歡哪種社交方式？</div>
+    <div class="choices">
+      <button onclick="choose('E')">外向（E）</button>
+      <button onclick="choose('I')">內向（I）</button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "你更喜歡哪種社交方式？",
+        options: ['E', 'I']
+      },
+      {
+        text: "你做決定更偏向哪種？",
+        options: ['T', 'F']
+      },
+      {
+        text: "你吸收資訊的方式？",
+        options: ['S', 'N']
+      },
+      {
+        text: "你處事方式比較？",
+        options: ['J', 'P']
+      }
+    ];
+
+    let currentQuestion = 0;
+    let resultArray = [];
+
+    function choose(choice) {
+      resultArray.push(choice);
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        const q = questions[currentQuestion];
+        document.getElementById('question-text').textContent = q.text;
+
+        const buttons = document.querySelectorAll('.choices button');
+        buttons[0].textContent = choiceLabel(q.options[0]);
+        buttons[0].setAttribute('onclick', `choose('${q.options[0]}')`);
+
+        buttons[1].textContent = choiceLabel(q.options[1]);
+        buttons[1].setAttribute('onclick', `choose('${q.options[1]}')`);
+      } else {
+        document.querySelector('.choices').style.display = 'none';
+        document.getElementById('question-text').style.display = 'none';
+        document.getElementById('result').textContent = `你的 MBTI 是：${resultArray.join('')}`;
+      }
+    }
+
+    function choiceLabel(letter) {
+      const map = {
+        E: "外向（E）",
+        I: "內向（I）",
+        S: "實感（S）",
+        N: "直覺（N）",
+        T: "理性（T）",
+        F: "感性（F）",
+        J: "計畫（J）",
+        P: "隨性（P）"
+      };
+      return map[letter];
+    }
+  </script>
+</body>
+</html>
